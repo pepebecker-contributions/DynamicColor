@@ -55,12 +55,17 @@ public extension DynamicColor {
    - parameter hexString: A hexa-decimal color string representation.
    */
   convenience init(hexString: String) {
-    let hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
-    let scanner   = Scanner(string: hexString)
+    var hexString = hexString.trimmingCharacters(in: .whitespacesAndNewlines)
 
     if hexString.hasPrefix("#") {
-      scanner.scanLocation = 1
+        hexString = String(hexString.dropFirst())
     }
+
+    if hexString.count == 3 || hexString.count == 4 {
+        hexString = String(hexString.flatMap { [$0, $0] })
+    }
+
+    let scanner = Scanner(string: hexString)
 
     var color: UInt32 = 0
 
